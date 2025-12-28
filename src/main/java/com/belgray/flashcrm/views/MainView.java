@@ -19,15 +19,23 @@ public class MainView extends VerticalLayout {
     public MainView(ContactRepository repo) {
         this.repo = repo;
 
+        if (repo.count() == 0) {
+            System.out.println(">>> ТАБЛИЦА ПУСТАЯ. СОЗДАЮ АВАРИЙНОГО ПОЛЬЗОВАТЕЛЯ...");
+
+            Contact c = new Contact();
+            c.setFirstName("Emergency");
+            c.setLastName("User");
+            c.setEmail("help@me.com");
+            c.setStatus(Contact.Status.NEW);
+
+            repo.save(c);
+            System.out.println(">>> ПОЛЬЗОВАТЕЛЬ СОХРАНЕН! <<<");
+        }
+
         addClassName("list-view");
         setSizeFull();
 
-
-
         add(filterText, grid);
-
-
-
     }
 
     private void configGrid() {
